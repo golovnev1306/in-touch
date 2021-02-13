@@ -1,0 +1,52 @@
+.registration_steps_btn {
+	margin: 0 10px;
+}
+
+.step_of_registration_form {
+	height: 250px;
+    display: flex;
+    flex-flow: column;
+	animation-name: visible;
+	animation-duration: 0.3s;
+	animation-iteration-count: 1;
+	animation-direction: normal;
+	animation-timing-function: ease-out;
+	animation-fill-mode: forwards;
+	animation-delay: 0s;
+}
+
+.hidden_form {
+	display: none;
+}
+
+.page_title {
+	animation-name: title;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+	animation-timing-function: ease-in-out;
+	animation-fill-mode: forwards;
+	animation-delay: 0s;
+}
+
+@keyframes title {
+  0% {
+	color: #227bff;
+  }
+  100% {
+    color: #007bff;
+  }
+}
+
+@keyframes visible {
+  0% {
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+}

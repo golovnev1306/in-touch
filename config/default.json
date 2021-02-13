@@ -1,0 +1,11 @@
+{
+	"port": "3001",
+	"db": {
+		"name": "in_touch",
+		"username": "root",
+		"password": null,
+		"host": "localhost",
+		"type": "mysql"
+	},
+	"secretKey": "tort"
+}
