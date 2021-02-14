@@ -1,23 +1,29 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import {Navbar, Nav, Form, FormControl, Button, Container} from 'react-bootstrap';
-import {switchLoginStatusAC} from './../../redux/login-reducer';
 import {connect} from 'react-redux';
+import {getIsAutentificated} from "../../selectors/selectors";
+import {logout} from "../../redux/login-reducer";
 
-const Header = ({switchLoginStatus, isLogin}) => {
+const Header = ({isAutentificated, logout}) => {
 	return (
 		<Navbar bg="primary" variant="dark">
 			<Container>
 				<Navbar.Brand>In touch</Navbar.Brand>
 				<Nav className="mr-auto">
-				{ isLogin ? <Nav.Link activeClassName='active' as={NavLink} to="/">Мой профиль</Nav.Link> : 
+				{ isAutentificated ? (
+					<>
+					<Nav.Link activeClassName='active' as={NavLink} to="/">Мой профиль</Nav.Link>
+					<Nav.Link onClick={logout} as={NavLink} to="/login">Выход</Nav.Link></>
+					) :
 				<Nav.Link activeClassName='active' as={NavLink} to="/login">Логин</Nav.Link> }
 				  
 				</Nav>
+				{ isAutentificated && (
 				<Form inline>
 				  <FormControl type="text" placeholder="Search" className="mr-sm-2" />
 				  <Button variant="outline-light"  className="mr-sm-2">Search</Button>
-				</Form>
+				</Form>)}
 			</Container>
 		</Navbar>
 	);
@@ -25,14 +31,13 @@ const Header = ({switchLoginStatus, isLogin}) => {
 
 const mapStateToProps = (state) => {
 	return {
-		isLogin: state.login.isLogin
+		isAutentificated: getIsAutentificated(state)
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		switchLoginStatus: (isLogin) => {
-			dispatch(switchLoginStatusAC(isLogin))}
+		logout: () => dispatch(logout())
 	}
 }
 

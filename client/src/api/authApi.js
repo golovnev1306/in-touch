@@ -13,19 +13,20 @@ const instance = axios.create({
   headers: headerOptions
 })
 
-const registration = (values) => {
-	return instance.post('registration', {values}).catch(error => {
-		return error.response
-})
+const registration = (first_name, last_name, email, password) => {
+	return instance.post('registration', {first_name, last_name, email, password})
 }
 
-const login = (login, password) => {
-	return instance.post('', {login, password}).catch(error => {
-		return error.response
-})
+const login = (email, password) => {
+	return instance.post('', {email, password})
+}
+
+const checkEmail = (email) => {
+	return instance.post('checkEmail', {email})
 }
 
 export default {
 	registration,
-	login
+	login,
+	checkEmail
 }

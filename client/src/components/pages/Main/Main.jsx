@@ -5,7 +5,7 @@ import {Row, Col, Image, Figure, Accordion, Card, Button, ProgressBar} from 'rea
 import profileImage from '../../../images/profile-image.jpg'
 import styles from './Main.module.css'
 
-const Main = ({isLogin}) => {
+const Main = () => {
 
 	return (
 		<div>
@@ -24,7 +24,7 @@ const Main = ({isLogin}) => {
 				<Col className={'w-sm-100'}>
 					<h3>Константин Головнев</h3>
 					<div className={'text-muted'}>Я лучше всех</div>
-					<Accordion className={styles.info_about_me} defaultActiveKey="0">
+					<Accordion className={styles.info_about_me}>
 					  <Card>
 						<Card.Header>
 						  <Accordion.Toggle className={'shadow-none text-decoration-none'} as={Button} variant="link" eventKey="0">
@@ -83,10 +83,5 @@ const Main = ({isLogin}) => {
 	);
 }
 
-const mapStateToProps = (state) => {
-	return {
-		isLogin: state.login.isLogin
-	}
-}
 
-export default connect(mapStateToProps, null)(Main)
+export default Main

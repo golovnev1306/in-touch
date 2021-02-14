@@ -1,24 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
-import React from 'react';
-import {BrowserRouter} from 'react-router-dom';
-import store from './redux/store';
-import {Provider} from 'react-redux';
+import React, {useEffect} from 'react';
 import Content from './components/Content'
 import Header from './components/Header/Header'
+import {connect} from 'react-redux'
+import {initializeApp, setMessage} from "./redux/app-reducer";
+import {getIsAutentificated, getIsInitialized, getMessage} from "./selectors/selectors";
+import {Alert} from 'react-bootstrap'
 
 
-function App() {
-  return (
-  <Provider store={store}>
-	<BrowserRouter>	
-		<div className="App">
-			<Header />
-			<Content />
-		</div>
-	</BrowserRouter>
-	</Provider>
-  );
-}
+const App = ({isAuthentificated, initializeApp, isInitialized, message, setMessage}) => {
+    useEffect(() => {
+        initializeApp()
+    }, [])
 
-export default App;
+    const closeHandler = () => {
+        setMessage({body: null})
+    }
+
+
+    if (isInitialized) {
+        return (
+            <div className="App">
+                <Header/>
+                {message.body && (<Alert variant={message.isSuccess ? 'success' : 'danger'} dismissible
+                                         onClose={closeHandler}>{message.body}</Alert>)}
+
+                <Content/>
+            </div>
+        )
+    }
+    return (
+        < div
+            className="App-loading">
+            <div className="spinner-grow text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+            </div>
+            < /div>
+                )
+                }
+
+                const mapStateToProps = (state) => {
+                return {
+                isAuthentificated: getIsAutentificated(state),
+                isInitialized: getIsInitialized(state),
+                message: getMessage(state)
+            }
+            }
+
+                const mapDispatchToProps = (dispatch) => {
+                return {
+                initializeApp: () => dispatch(initializeApp()),
+                setMessage: (message) => dispatch(setMessage(message))
+            }
+            }
+
+                export default connect(mapStateToProps, mapDispatchToProps)(App)

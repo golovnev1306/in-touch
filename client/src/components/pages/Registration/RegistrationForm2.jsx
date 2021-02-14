@@ -1,30 +1,19 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {Redirect} from 'react-router-dom'
-import {Form, Col, Button} from 'react-bootstrap'
-import {Field, reduxForm, getFormValues} from 'redux-form'
+import {Form, Col} from 'react-bootstrap'
+import {Field, reduxForm} from 'redux-form'
 import BSFormControl from './../../common/form-fields/BSFormControl'
-import {required, length, email} from 'redux-form-validators'
-import {registration, login} from '../../../redux/login-reducer'
+import {required, email} from 'redux-form-validators'
 import { EmojiDizzy } from 'react-bootstrap-icons'
 import styles from './Registration.module.css'
+import {compose} from "redux";
+import withSlowAppear from "../../../hoc/withSlowAppear"
+import checkEmailAsyncValidation from "../../../utils/checkEmailAsyncValidation";
 
-let RegistrationForm2 = ({visible, handleSubmit}) => {
-	
-	let classNames = styles.step_of_registration_form
-	classNames += !visible ? ' ' + styles.hidden_form : ''
-	
-	const blurHandler = () => {
-		//todo check email
-		
-		/*throw new SubmissionError({
-			username: 'User does not exist',
-			_error: 'Login failed!'
-		})*/
-	}
+const RegistrationForm2 = (props) => {
+	const {handleSubmit} = props
 	
 	return (
-		<Form onSubmit={handleSubmit} className={classNames}>
+		<Form onSubmit={handleSubmit} className={styles.step_of_registration_form}>
 		<h4>Просим подтвердить вашу почту <EmojiDizzy color="#007bff"/></h4>
 		<Form.Row className='flex-grow-1 align-items-center'>
 			<Col xs={12} sm={{span:10, offset: 1}} md={{span:8, offset: 2}} lg={{span:6, offset: 3}}>
@@ -39,7 +28,6 @@ let RegistrationForm2 = ({visible, handleSubmit}) => {
 						required({msg: 'Поле с эл.почтой не может быть пустым'}), 
 						email({msg: 'Введите корректную эл.почту'})
 						]}
-					onBlur = {blurHandler}
 				/>
 				<Form.Text muted>Для подтверждения личности, кстати, мы планируем сделать подтверждение по смс</Form.Text>
 			</Form.Group>
@@ -50,11 +38,8 @@ let RegistrationForm2 = ({visible, handleSubmit}) => {
 	);
 }
 
-
-const RegistrationForm2ReduxForm = reduxForm({
-  form: 'registrationStep2'
-})(RegistrationForm2)
-
-
-
-export default RegistrationForm2ReduxForm
+export default compose(reduxForm({
+	form: 'registrationStep2',
+	asyncValidate: checkEmailAsyncValidation,
+	asyncBlurFields: ['email']
+}), withSlowAppear)(RegistrationForm2)

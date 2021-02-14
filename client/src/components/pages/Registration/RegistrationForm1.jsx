@@ -1,21 +1,17 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {Redirect} from 'react-router-dom'
-import {Form, Col, Button} from 'react-bootstrap'
+import {Form, Col} from 'react-bootstrap'
 import {Field, reduxForm} from 'redux-form'
 import BSFormControl from './../../common/form-fields/BSFormControl'
-import {required, length} from 'redux-form-validators'
-import {registration, login} from '../../../redux/login-reducer'
+import {required} from 'redux-form-validators'
 import { EmojiLaughing } from 'react-bootstrap-icons'
 import styles from './Registration.module.css'
+import {compose} from "redux";
+import withSlowAppear from "../../../hoc/withSlowAppear";
 
-let RegistrationForm1 = ({visible, handleSubmit}) => {
-	
-	let classNames = styles.step_of_registration_form
-	classNames += !visible ? ' ' + styles.hidden_form : ''
-	
+const RegistrationForm1 = ({handleSubmit}) => {
+
 	return (
-		<Form onSubmit={handleSubmit} className={classNames}>
+		<Form onSubmit={handleSubmit} className={styles.step_of_registration_form}>
 			<h4>Представьтесь, пожалуйста <EmojiLaughing color="#007bff"/></h4>
 			<Form.Row className='flex-grow-1 align-items-center'>
 			<Col xs={12} sm={{span:10, offset: 1}} md={{span:8, offset: 2}} lg={{span:6, offset: 3}}>
@@ -43,16 +39,11 @@ let RegistrationForm1 = ({visible, handleSubmit}) => {
 		  </Col>
 		  
 		  </Form.Row>
-		  <button type='submit' hidden></button>
+			<button type='submit' hidden></button>
 		</Form>
 	);
 }
 
-
-const RegistrationForm1ReduxForm = reduxForm({
-  form: 'registrationStep1'
-})(RegistrationForm1)
-
-
-
-export default RegistrationForm1ReduxForm
+export default compose(reduxForm({
+	form: 'registrationStep1'
+}), withSlowAppear)(RegistrationForm1)

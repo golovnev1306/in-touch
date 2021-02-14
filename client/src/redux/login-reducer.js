@@ -1,78 +1,61 @@
 import authApi from '../api/authApi'
-
-const SWITCH_LOGIN_STATUS = 'SWITCH_LOGIN_STATUS'
-const SWITCH_IS_LOADING = 'SWITCH_IS_LOADING'
+import {initializeApp, setMessage, switchIsLoadingAC} from "./app-reducer";
 
 const initialState = {
-	isAuthentificated: false,
-	isLoading: false
 };
 
 const loginReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case SWITCH_LOGIN_STATUS: {
-			return {
-				...state,
-				isAuthentificated: action.isAuthentificated
-			}
-		}
-		case SWITCH_IS_LOADING: {
-			return {
-				...state,
-				isLoading: action.isLoading
-			}
-		}
-		
 		default: return state;
 	}
 }
 
-export const switchLoginStatusAC = (isAuthentificated) => {
-	return {
-		type: SWITCH_LOGIN_STATUS,
-		isAuthentificated
-	}
-}
-
-export const switchIsLoadingAC = (isLoading) => {
-	return {
-		type: SWITCH_IS_LOADING,
-		isLoading
-	}
-}
-
-
 export const registration = (values) => {
 	return async (dispatch) => {
 		dispatch(switchIsLoadingAC(true))
-		const result = await authApi.registration(JSON.stringify(values))
-		console.log(result)
-		if (result.token) {
-			sessionStorage.setItem('token', result.token)
-		} else {
-			console.log ('Сервер вернул сообщение с ошибкой:', result)
+		const {first_name, last_name, email, password} = values
+		try {
+			const result = await authApi.registration(first_name, last_name, email, password)
+			if (result.data?.token) {
+				sessionStorage.setItem('token', result.data.token)
+				dispatch(initializeApp())
+			}
+		} catch (error) {
+			dispatch(setMessage({body: error.response?.data.message, isSuccess: error.response?.data.isSuccess}))
 		}
-		
+
 		dispatch(switchIsLoadingAC(false))
 	}
 }
 
-export const login = (login, password) => {
+export const login = (email, password) => {
 	return async (dispatch) => {
 		dispatch(switchIsLoadingAC(true))
-		const result = await authApi.login(login, password)
-		
-		
-		if (result?.token) {
-			sessionStorage.setItem('token', result.token)
-			dispatch(switchLoginStatusAC(true))
-		} else {
-			console.log ('Сервер вернул сообщение с ошибкой:', result.data.message)
+		try {
+			const result = await authApi.login(email, password)
+			if (result.data?.token) {
+				sessionStorage.setItem('token', result.data.token)
+				dispatch(initializeApp())
+			}
+		} catch (error) {
+			dispatch(setMessage({body: error.response?.data.message, isSuccess: error.response?.data.isSuccess}))
 		}
-		
+
 		dispatch(switchIsLoadingAC(false))
 	}
 }
+
+export const logout = () =>{
+	return (dispatch) => {
+		try {
+			sessionStorage.removeItem('token')
+		} catch (error) {
+			console.log("error", error)
+		}
+		dispatch(initializeApp())
+	}
+}
+
 
 
 

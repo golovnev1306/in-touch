@@ -9,6 +9,7 @@ import {CaretLeft} from 'react-bootstrap-icons'
 import {CaretRight} from 'react-bootstrap-icons'
 import {isValid, getFormValues} from 'redux-form'
 import {registration} from '../../../redux/login-reducer'
+import {NavLink} from "react-router-dom";
 
 const Registration = ({isValidSteps, formStep1Values1, formStep1Values2, formStep1Values3, registration}) => {
 	const [step, setStep] = useState(1)
@@ -24,15 +25,14 @@ const Registration = ({isValidSteps, formStep1Values1, formStep1Values2, formSte
 	
 	return (
 		<div>
-		<Fade in={!!step}>
-		<h4 className={'' + styles.page_title}>Страница регистрации</h4>
-		</Fade>
+			<h4 className={styles.page_title}>Страница регистрации</h4>
 
-			<RegistrationForm1 onSubmit={registrationSubmitStep1and2} visible={(step === 1)}/>
 
-			<RegistrationForm2 onSubmit={registrationSubmitStep1and2} visible={(step === 2)}/>
+			<RegistrationForm1 onSubmit={registrationSubmitStep1and2} invisible={!(step === 1)}/>
 
-			<RegistrationForm3 visible={(step === 3)}/>
+			<RegistrationForm2 onSubmit={registrationSubmitStep1and2} invisible={!(step === 2)}/>
+
+			<RegistrationForm3 invisible={!(step === 3)}/>
 
 			{ step > 1 && (<Button className={styles.registration_steps_btn} variant="primary" onClick={() => setStep(step - 1)}>
 				<CaretLeft/> Назад
@@ -47,6 +47,9 @@ const Registration = ({isValidSteps, formStep1Values1, formStep1Values2, formSte
 				{(step !== 3) ? 'Далее ' : 'Готово '}<CaretRight/>
 				</Button>)
 			}
+			<div className={'mt-2'}>
+				<NavLink to={'/login'}>Зарегистрированы? Вам сюда</NavLink>
+			</div>
 		</div>
 		
 	);

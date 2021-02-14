@@ -1,15 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Redirect} from 'react-router-dom'
 import {Form, Col, Button} from 'react-bootstrap'
 import {Field, reduxForm} from 'redux-form'
 import BSFormControl from './../../common/form-fields/BSFormControl'
-import {required, length} from 'redux-form-validators'
-import {registration, login} from '../../../redux/login-reducer'
+import {required} from 'redux-form-validators'
+import {login} from '../../../redux/login-reducer'
+import {getIsAutentificated} from "../../../selectors/selectors";
 
-let LoginForm = (props) => {
-	
-	const {isAuthentificated, handleSubmit, registration, login} = props
+let LoginForm = ({handleSubmit, invalid, login}) => {
 	
 	return (
 		<Form>
@@ -32,15 +30,13 @@ let LoginForm = (props) => {
 					name='password' 
 					component={BSFormControl} 
 					type="password"
-					placeholder="Пароль" 
-					validate={
-						length({min: 6, msg: 'Пароль должен содержать не менее 6 символов'})
-					}
+					placeholder="Пароль"
+					validate={[required({msg: 'Пароль обязателен'})]}
 				/>
 			</Form.Group>
 			</Col>
 		  </Form.Row>
-		  <Button variant="primary" onClick={handleSubmit(login)}>
+		  <Button disabled={invalid} type={'submit'} variant="primary" onClick={handleSubmit(login)}>
 			Войти
 		  </Button>
 		</Form>
@@ -49,21 +45,15 @@ let LoginForm = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
-		isAuthentificated: state.login.isAuthentificated
+		isAuthentificated: getIsAutentificated(state)
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		registration: (values) => dispatch(registration(values.login, values.password)),
-		login: (values) => {
-			console.log(values)
-			dispatch(login(values.login, values.password))
-			}
+		login: (values) => dispatch(login(values.login, values.password))
 	}
 }
-
-
 
 const LoginFormReduxForm = reduxForm({
   form: 'login'

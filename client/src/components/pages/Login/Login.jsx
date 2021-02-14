@@ -1,25 +1,17 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {Redirect, NavLink} from 'react-router-dom'
-import {Form, Col, Button} from 'react-bootstrap'
+import {NavLink} from 'react-router-dom'
 import LoginForm from './LoginForm'
+import withSlowAppear from "../../../hoc/withSlowAppear";
 
-const Login = ({isLogin}) => {
-	
-	return (
-		<div>
-		{isLogin &&
-			(<Redirect to='/'/>)}
-			<LoginForm />
-			<NavLink to={'/registration'}>Нет аккаунта? Регистрация</NavLink>
-		</div>
-	)
+const Login = () => {
+    return (
+        <>
+            <LoginForm/>
+            <div className={'mt-2'}>
+                <NavLink to={'/registration'}>Нет аккаунта? Регистрация</NavLink>
+            </div>
+        </>
+    )
 }
 
-const mapStateToProps = (state) => {
-	return {
-		isLogin: state.login.isLogin
-	}
-}
-
-export default connect(mapStateToProps, null)(Login)
+export default withSlowAppear(Login)
