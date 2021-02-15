@@ -10,8 +10,8 @@ import {Alert} from 'react-bootstrap'
 const App = ({isAuthentificated, initializeApp, isInitialized, message, setMessage}) => {
     useEffect(() => {
         initializeApp()
-    }, [])
-
+    }, [initializeApp])
+	
     const closeHandler = () => {
         setMessage({body: null})
     }
@@ -29,28 +29,23 @@ const App = ({isAuthentificated, initializeApp, isInitialized, message, setMessa
         )
     }
     return (
-        < div
-            className="App-loading">
+        <div className="App-loading">
             <div className="spinner-grow text-primary" role="status">
                 <span className="sr-only">Loading...</span>
             </div>
-            < /div>
-                )
-                }
+        </div>
+    )
+}
 
-                const mapStateToProps = (state) => {
-                return {
-                isAuthentificated: getIsAutentificated(state),
-                isInitialized: getIsInitialized(state),
-                message: getMessage(state)
-            }
-            }
+const mapStateToProps = state => ({
+        isAuthentificated: getIsAutentificated(state),
+        isInitialized: getIsInitialized(state),
+        message: getMessage(state)
+    })
 
-                const mapDispatchToProps = (dispatch) => {
-                return {
-                initializeApp: () => dispatch(initializeApp()),
-                setMessage: (message) => dispatch(setMessage(message))
-            }
-            }
+const mapDispatchToProps = dispatch => ({
+    initializeApp: () => dispatch(initializeApp()),
+    setMessage: message => dispatch(setMessage(message))
+})
 
-                export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

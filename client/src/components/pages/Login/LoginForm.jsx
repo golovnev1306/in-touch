@@ -1,13 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Form, Col, Button} from 'react-bootstrap'
+import {Form, Col, Button, Spinner} from 'react-bootstrap'
 import {Field, reduxForm} from 'redux-form'
 import BSFormControl from './../../common/form-fields/BSFormControl'
 import {required} from 'redux-form-validators'
 import {login} from '../../../redux/login-reducer'
 import {getIsAutentificated} from "../../../selectors/selectors";
 
-let LoginForm = ({handleSubmit, invalid, login}) => {
+let LoginForm = ({handleSubmit, invalid, login, isLoading}) => {
 	
 	return (
 		<Form>
@@ -36,7 +36,16 @@ let LoginForm = ({handleSubmit, invalid, login}) => {
 			</Form.Group>
 			</Col>
 		  </Form.Row>
-		  <Button disabled={invalid} type={'submit'} variant="primary" onClick={handleSubmit(login)}>
+		  <Button disabled={invalid || isLoading} type={'submit'} variant="primary" onClick={handleSubmit(login)}>
+			  {isLoading && 
+				(<Spinner
+					as="span"
+					animation="grow"
+					size="sm"
+					role="status"
+					aria-hidden="true"
+					className={'spinner-inside-btn'}
+				/> )}
 			Войти
 		  </Button>
 		</Form>
@@ -45,7 +54,8 @@ let LoginForm = ({handleSubmit, invalid, login}) => {
 
 const mapStateToProps = (state) => {
 	return {
-		isAuthentificated: getIsAutentificated(state)
+		isAuthentificated: getIsAutentificated(state),
+		isLoading: state.app.isLoading
 	}
 }
 
@@ -58,7 +68,6 @@ const mapDispatchToProps = (dispatch) => {
 const LoginFormReduxForm = reduxForm({
   form: 'login'
 })(LoginForm)
-
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginFormReduxForm)

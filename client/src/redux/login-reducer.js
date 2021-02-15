@@ -17,11 +17,13 @@ export const registration = (values) => {
 		try {
 			const result = await authApi.registration(first_name, last_name, email, password)
 			if (result.data?.token) {
-				sessionStorage.setItem('token', result.data.token)
+				sessionStorage.setItem('userData', JSON.stringify(result.data.userData))
 				dispatch(initializeApp())
 			}
 		} catch (error) {
-			dispatch(setMessage({body: error.response?.data.message, isSuccess: error.response?.data.isSuccess}))
+			const message = error.response ? {body: error.response?.data.message, isSuccess: error.response?.data.isSuccess} 
+				: {body: 'Возникла ошибка, проверьте соединение', isSuccess: false}
+			dispatch(setMessage(message))
 		}
 
 		dispatch(switchIsLoadingAC(false))
@@ -34,11 +36,13 @@ export const login = (email, password) => {
 		try {
 			const result = await authApi.login(email, password)
 			if (result.data?.token) {
-				sessionStorage.setItem('token', result.data.token)
+				sessionStorage.setItem('userData', JSON.stringify(result.data.userData))
 				dispatch(initializeApp())
 			}
 		} catch (error) {
-			dispatch(setMessage({body: error.response?.data.message, isSuccess: error.response?.data.isSuccess}))
+			const message = error.response ? {body: error.response?.data.message, isSuccess: error.response?.data.isSuccess} 
+				: {body: 'Возникла ошибка, проверьте соединение', isSuccess: false}
+			dispatch(setMessage(message))
 		}
 
 		dispatch(switchIsLoadingAC(false))
@@ -48,7 +52,7 @@ export const login = (email, password) => {
 export const logout = () =>{
 	return (dispatch) => {
 		try {
-			sessionStorage.removeItem('token')
+			sessionStorage.removeItem('userData')
 		} catch (error) {
 			console.log("error", error)
 		}

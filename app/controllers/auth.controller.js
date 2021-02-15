@@ -35,7 +35,7 @@ exports.login = async (req, res) => {
 		config.get("secretKey")
 	)
 	
-	res.status(200).json({message: 'Все ок!', isSuccess: true, token})
+	res.status(200).json({message: 'Все ок!', isSuccess: true, token,  userData: {token, userId: candidate.id}})
 }
 
 exports.registration = async (req, res) => {
@@ -70,7 +70,7 @@ exports.registration = async (req, res) => {
 			config.get("secretKey")
 		)
 
-		res.status(200).json({message: 'Все ок!', isSuccess: true, token})
+		res.status(200).json({message: 'Все ок!', isSuccess: true, userData: {token, userId: newUser.id}})
 
 	} catch (error) {
 		res.status(500).json({message: `Ошибка при создании пользователя в бд!\nдоп инфо: ${error}`, isSuccess: false})

@@ -1,7 +1,9 @@
 const {DataTypes} = require('sequelize')
 const sequelize = require('../../db.js')
+const UsersSex = require('./UsersSex.js')
 
-module.exports = sequelize.define('user', {
+
+const User = sequelize.define('user', {
 
     id: {
         type: DataTypes.INTEGER,
@@ -25,6 +27,10 @@ module.exports = sequelize.define('user', {
         type: DataTypes.TEXT,
         allowNull: false
     },
+	sex_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     createdAt: {
         field: 'created_at',
         type: DataTypes.DATE,
@@ -33,4 +39,9 @@ module.exports = sequelize.define('user', {
         field: 'updated_at',
         type: DataTypes.DATE,
     }
-});
+})
+
+User.hasOne(UsersSex, {foreignKey: 'id', sourceKey: 'sex_id', onDelete: "restrict"})
+
+module.exports = User
+

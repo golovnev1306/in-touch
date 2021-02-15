@@ -16,7 +16,7 @@ const start = async () => {
 
         app.use(express.json())
         app.use('/api/auth', routers.auth(express))
-        app.use('/api/users', isAuth, routers.auth(express))
+        app.use('/api/users', isAuth, routers.users(express))
 
         app.use(function (req, res) {
             res.status(404).json({message: 'По адресу ничего нет', isSuccess: false})

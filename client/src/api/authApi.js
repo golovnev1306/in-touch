@@ -1,16 +1,7 @@
 import axios from 'axios'
 
-const token = sessionStorage.getItem('token')
-let headerOptions = {}
-
-if (token) {
-	headerOptions['autorization'] = `Bearer ${token}`
-}
-
-
 const instance = axios.create({
-  baseURL: 'http://localhost:3001/api/auth/',
-  headers: headerOptions
+  baseURL: 'http://localhost:3001/api/auth/'
 })
 
 const registration = (first_name, last_name, email, password) => {

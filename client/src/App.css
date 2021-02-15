@@ -29,7 +29,10 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+}
 
+.spinner-inside-btn {
+	margin-right: 10px; 
 }
 
 /*.form-control.loading {

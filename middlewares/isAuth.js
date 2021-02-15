@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const config = require('config')
 
 
-module.exports = (req, res, next) => {
+module.exports = async(req, res, next) => {
     try {
         let token;
 
@@ -11,15 +11,19 @@ module.exports = (req, res, next) => {
         }
 
         if (token) {
-            req.userData = jwt.verify(token, config.get('secretKey'), (error) => {
+            jwt.verify(token, config.get('secretKey'), (error, decoded) => {
                 if (error) {
                     return res.status(403).json({message: 'Ошибка доступа', isSuccess: false})
                 }
+
+				req.userData = decoded
             })
 
-            next();
-        }
-        return res.status(403).json({message: 'Ошибка доступа', isSuccess: false})
+            next()
+        } else {
+			return res.status(403).json({message: 'Ошибка доступа', isSuccess: false})
+		}
+
 
     } catch (e) {
         return res.status(500).json({message: 'Что-то пошло не так', isSuccess: false})

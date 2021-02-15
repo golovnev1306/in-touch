@@ -5,8 +5,9 @@ import {Row, Col, Image, Figure, Accordion, Card, Button, ProgressBar} from 'rea
 import profileImage from '../../../images/profile-image.jpg'
 import styles from './Main.module.css'
 
-const Main = () => {
+const Main = ({userData}) => {
 
+	console.log(userData)
 	return (
 		<div>
 			<Row>
@@ -22,7 +23,7 @@ const Main = () => {
 						<Button className={`${styles.profile_photo_btn} w-sm-100 d-flex btn-block`}>Изменить профиль</Button>
 				</Col>
 				<Col className={'w-sm-100'}>
-					<h3>Константин Головнев</h3>
+					<h3>{userData.first_name} {userData.last_name}</h3>
 					<div className={'text-muted'}>Я лучше всех</div>
 					<Accordion className={styles.info_about_me}>
 					  <Card>
@@ -33,6 +34,11 @@ const Main = () => {
 						</Card.Header>
 						<Accordion.Collapse eventKey="0">
 						  <Card.Body>
+							<Row>
+								<Col>Пол</Col>
+								<Col>Мужской</Col>
+							</Row>
+							<hr/>
 							<Row>
 								<Col>Место жительства</Col>
 								<Col>Чунский</Col>
@@ -63,10 +69,6 @@ const Main = () => {
 								<Col>Негативное</Col>
 							</Row>
 							<hr/>
-							<Row>
-								<Col>Отношение к курению</Col>
-								<Col>Негативное</Col>
-							</Row>
 							<hr/>
 							<Row>
 								<Col>Отношение к курению</Col>
@@ -83,5 +85,10 @@ const Main = () => {
 	);
 }
 
+const mapStateToProps = (state) => {
+	return {
+		userData: state.users.userData
+	}
+}
 
-export default Main
+export default connect(mapStateToProps)(Main)

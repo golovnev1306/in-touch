@@ -1,5 +1,6 @@
 import authApi from '../api/authApi'
-import {logout} from "./login-reducer";
+import {logout} from './login-reducer'
+import {setMe, setUserId, getMeInfo} from './users-reducer'
 
 const SWITCH_LOGIN_STATUS = 'SWITCH_LOGIN_STATUS'
 const SWITCH_IS_LOADING = 'SWITCH_IS_LOADING'
@@ -68,9 +69,11 @@ export const setMessage = (message) => ({type: SET_MESSAGE, message})
 export const initializeApp = () => {
 	return async (dispatch) => {
 		dispatch(initializedStart())
-		const token = await sessionStorage.getItem('token')
-		if (token) {
+		const userData = await JSON.parse(sessionStorage.getItem('userData'))
+		if (userData) {
 			dispatch(switchLoginStatusAC(true))
+			dispatch(setUserId(userData.userId))
+			dispatch(getMeInfo(userData.userId))
 		} else {
 			dispatch(switchLoginStatusAC(false))
 		}
