@@ -1,13 +1,14 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Route, Redirect} from 'react-router-dom'
-import {Row, Col, Image, Figure, Accordion, Card, Button, ProgressBar} from 'react-bootstrap'
+import {Row, Col, Image, Accordion, Card, Button, ProgressBar} from 'react-bootstrap'
 import profileImage from '../../../images/profile-image.jpg'
 import styles from './Main.module.css'
+import {getUserData} from "../../../selectors/selectors";
 
 const Main = ({userData}) => {
 
 	console.log(userData)
+
 	return (
 		<div>
 			<Row>
@@ -24,7 +25,7 @@ const Main = ({userData}) => {
 				</Col>
 				<Col className={'w-sm-100'}>
 					<h3>{userData.first_name} {userData.last_name}</h3>
-					<div className={'text-muted'}>Я лучше всех</div>
+					<div className={'text-muted'}>{userData.status}</div>
 					<Accordion className={styles.info_about_me}>
 					  <Card>
 						<Card.Header>
@@ -36,44 +37,9 @@ const Main = ({userData}) => {
 						  <Card.Body>
 							<Row>
 								<Col>Пол</Col>
-								<Col>Мужской</Col>
+								<Col>{userData.sex}</Col>
 							</Row>
 							<hr/>
-							<Row>
-								<Col>Место жительства</Col>
-								<Col>Чунский</Col>
-							</Row>
-							 <hr/>
-							<Row>
-								<Col>Отношение к курению</Col>
-								<Col>Негативное</Col>
-							</Row>
-							<hr/>
-							<Row>
-								<Col>О вас</Col>
-								<Col>Люблю спать!</Col>
-							</Row>
-							<hr/>
-							<Row>
-								<Col>Отношение к курению</Col>
-								<Col>Негативное</Col>
-							</Row>
-							<hr/>
-							<Row>
-								<Col>Отношение к курению</Col>
-								<Col>Негативное</Col>
-							</Row>
-							<hr/>
-							<Row>
-								<Col>Отношение к курению</Col>
-								<Col>Негативное</Col>
-							</Row>
-							<hr/>
-							<hr/>
-							<Row>
-								<Col>Отношение к курению</Col>
-								<Col>Негативное</Col>
-							</Row>
 						  </Card.Body>
 						</Accordion.Collapse>
 					  </Card>
@@ -87,8 +53,8 @@ const Main = ({userData}) => {
 
 const mapStateToProps = (state) => {
 	return {
-		userData: state.users.userData
+		userData: getUserData(state)
 	}
 }
 
-export default connect(mapStateToProps)(Main)
+export default connect(mapStateToProps, null)(Main)

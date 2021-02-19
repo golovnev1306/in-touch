@@ -5,15 +5,16 @@ const SET_USER_ID = 'SET_USER_ID'
 
 const initialState = {
 	userId: null,
-	userData: null
+	userData: {}
 }
 
 const usersReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case SET_ME: {
+			console.log({...action.userData})
 			return {
 				...state,
-				userData: action.userData
+				userData: {...action.userData}
 			}
 		}
 		case SET_USER_ID: {
@@ -32,12 +33,12 @@ export const setUserId = userId => ({type: SET_USER_ID, userId})
 
 export const getMeInfo = (userId) => {
 	return async (dispatch) => {
-		const result = await usersApi.me(userId).catch(error => {
+		try {
+			const result = await usersApi.me(userId)
+			dispatch(setMe(result.data.user))
+		} catch (error) {
 			console.log('ошибка', error.response.data.message)
-		})
-		dispatch(setMe(result.data.me))
-		
-		//dispatch(setMe)
+		}
 	}
 }
 

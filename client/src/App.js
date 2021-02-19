@@ -1,17 +1,17 @@
-import React, {useEffect} from 'react';
-import Content from './components/Content'
-import Header from './components/Header/Header'
-import {connect} from 'react-redux'
+import React, {useEffect} from "react"
+import Content from "./components/Content"
+import Header from "./components/Header/Header"
+import {connect} from "react-redux"
 import {initializeApp, setMessage} from "./redux/app-reducer";
 import {getIsAutentificated, getIsInitialized, getMessage} from "./selectors/selectors";
-import {Alert} from 'react-bootstrap'
+import {Alert} from "react-bootstrap"
 
 
 const App = ({isAuthentificated, initializeApp, isInitialized, message, setMessage}) => {
     useEffect(() => {
         initializeApp()
     }, [initializeApp])
-	
+
     const closeHandler = () => {
         setMessage({body: null})
     }
@@ -21,8 +21,12 @@ const App = ({isAuthentificated, initializeApp, isInitialized, message, setMessa
         return (
             <div className="App">
                 <Header/>
-                {message.body && (<Alert variant={message.isSuccess ? 'success' : 'danger'} dismissible
-                                         onClose={closeHandler}>{message.body}</Alert>)}
+                {
+                    message.body && (
+                        <Alert variant={message.isSuccess ? "success" : "danger"} dismissible
+                               onClose={closeHandler}>{message.body}</Alert>
+                    )
+                }
 
                 <Content/>
             </div>
@@ -38,10 +42,10 @@ const App = ({isAuthentificated, initializeApp, isInitialized, message, setMessa
 }
 
 const mapStateToProps = state => ({
-        isAuthentificated: getIsAutentificated(state),
-        isInitialized: getIsInitialized(state),
-        message: getMessage(state)
-    })
+    isAuthentificated: getIsAutentificated(state),
+    isInitialized: getIsInitialized(state),
+    message: getMessage(state)
+})
 
 const mapDispatchToProps = dispatch => ({
     initializeApp: () => dispatch(initializeApp()),

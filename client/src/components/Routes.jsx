@@ -6,6 +6,9 @@ import NotFound from './pages/NotFound/NotFound'
 import Registration from './pages/Registration/Registration'
 import {connect} from 'react-redux'
 import {getIsAutentificated} from "../selectors/selectors";
+import Messages from "./pages/Messages/Messages";
+import Friends from "./pages/Friends/Friends";
+import Peoples from "./pages/Peoples/Peoples";
 
 
 const Routes = ({isAuthentificated}) => {
@@ -13,6 +16,9 @@ const Routes = ({isAuthentificated}) => {
     if (isAuthentificated) {
         return (<Switch>
                 <Route exact path="/" component={Main}/>
+                <Route exact path="/messages" component={Messages}/>
+                <Route exact path="/friends" component={Friends}/>
+                <Route exact path="/peoples" component={Peoples}/>
                 <Route exact path="/login">
                     <Redirect to={'/'}/>
                 </Route>

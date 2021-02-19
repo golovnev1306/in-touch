@@ -3,7 +3,7 @@
 	"db": {
 		"name": "in_touch",
 		"username": "root",
-		"password": "",
+		"password": "123qwe",
 		"host": "localhost",
 		"type": "mysql"
 	},

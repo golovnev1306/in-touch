@@ -6,7 +6,7 @@ exports.me = async (req, res) => {
 	const {userId} = req.query
 	//console.log(req)
 	const me = await User.findByPk(userId, {attributes: {exclude: ['password']}})
-	console.log(me)
-	console.log(Object.keys(me))
-	return res.status(200).json({me})
+	const user = me.dataValues
+	user.sex = (await me.getSex({raw: true})).name
+	return res.status(200).json({user})
 }

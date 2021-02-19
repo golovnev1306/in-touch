@@ -31,6 +31,9 @@ const User = sequelize.define('user', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
+    status: {
+        type: DataTypes.TEXT
+    },
     createdAt: {
         field: 'created_at',
         type: DataTypes.DATE,

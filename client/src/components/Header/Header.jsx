@@ -13,17 +13,25 @@ const Header = ({isAutentificated, logout}) => {
 				<Nav className="mr-auto">
 				{ isAutentificated ? (
 					<>
-					<Nav.Link activeClassName='active' as={NavLink} to="/">Мой профиль</Nav.Link>
-					<Nav.Link onClick={logout} as={NavLink} to="/login">Выход</Nav.Link></>
+					<Nav.Link activeClassName='active' exact as={NavLink} to="/">Мой профиль</Nav.Link>
+					<Nav.Link activeClassName='active' as={NavLink} to="/messages">Мои сообщения</Nav.Link>
+					<Nav.Link activeClassName='active' as={NavLink} to="/friends">Мои Друзья</Nav.Link>
+					<Nav.Link activeClassName='active' as={NavLink} to="/peoples">Люди</Nav.Link>
+					</>
 					) :
 				<Nav.Link activeClassName='active' as={NavLink} to="/login">Логин</Nav.Link> }
 				  
 				</Nav>
 				{ isAutentificated && (
+				<Nav>
+					<Nav.Link onClick={logout} as={NavLink} to="/login">Выход</Nav.Link>
+				</Nav>)}
+
+				{ /*isAutentificated && (
 				<Form inline>
 				  <FormControl type="text" placeholder="Search" className="mr-sm-2" />
 				  <Button variant="outline-light"  className="mr-sm-2">Search</Button>
-				</Form>)}
+				</Form>)*/}
 			</Container>
 		</Navbar>
 	);
