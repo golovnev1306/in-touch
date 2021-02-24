@@ -1,0 +1,35 @@
+.profile_photo {
+    max-width: 50px;
+    max-height: 50px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    display:flex;
+}
+
+.message_card {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.message_info {
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 0 1 auto;
+    padding: 0 10px;
+}
+
+.message_card_wrapper:hover {
+    background-color: #deeeff;
+    cursor: pointer;
+    user-select: none;
+}
+
+.message_card_wrapper {
+    max-width: 500px;
+    margin: 0 auto 10px auto;
+    transition: all .2s ease-in-out;
+}
